@@ -6,7 +6,7 @@ import tornado.web
 # 爬虫-html 自动识别编码格式然后自动转码成utf-8
 class MainHtml(tornado.web.RequestHandler):
     def get(self):
-        print("有数据请求了：" + time.strftime('%Y%m%d-%H%M%S'))
+        print("有数据请求了：" + time.strftime('%Y-%m-%d %H:%M:%S'))
         """get请求"""
         url = self.get_argument('url')
         str = requests.get(url,headers= {
@@ -22,7 +22,7 @@ class MainHtml(tornado.web.RequestHandler):
 if __name__ == "__main__":
     app = tornado.web.Application([(r"/pachong", MainHtml), ])
     app.listen(8888)
-    print('服务启动：'+time.strftime('%Y%m%d-%H%M%S'))
+    print('服务启动：'+time.strftime('%Y-%m-%d %H:%M:%S'))
     tornado.ioloop.IOLoop.current().start()
 
 
