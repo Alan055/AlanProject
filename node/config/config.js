@@ -37,7 +37,7 @@ const development = { // 开发
 		* 然后 设置密码 （百度）
 		* 然后就是下面的这些配置了 连接redis仓库 类似于mysql 但是没有账号  只需要密码连接
 		* 代码使用就是   ctx.session.key = value  删除是 ctx.session.key = value
-		 */
+			*/
 		host: 'localhost', // 本地地址
 		port: 6379, // 一般的端口都是6379
 		password: 'test123', // 公司电脑 redis的密码
