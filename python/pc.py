@@ -5,6 +5,7 @@ __author__ = 'Michael Liao'
 
 '''
 async web application.
+
 '''
 import requests_async as requests
 import time
@@ -30,8 +31,8 @@ async def index(request):
 async def init(loop):
     app = web.Application(loop=loop)
     app.router.add_route('GET', '/pachong', index)
-    srv = await loop.create_server(app.make_handler(), '127.0.0.1', 8888)
-    print('Server started at http://127.0.0.1:8000...')
+    srv = await loop.create_server(app.make_handler(), '0.0.0.0', 8888)
+    print('Server started at http://127.0.0.1:8888...')
     return srv
 
 loop = asyncio.get_event_loop()
