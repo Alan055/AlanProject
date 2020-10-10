@@ -1,2 +1,2 @@
-cd %~dp0
-node 汇总.js
+cd /d %~dp0
+node All.js
