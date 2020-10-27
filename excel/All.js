@@ -3,6 +3,7 @@ const axios = require('axios')
 const cheerio = require('cheerio')
 const iconv = require('iconv-lite');
 const xlsx = require('node-xlsx')
+var join = require('path').join
 console.log('执行中...')
 console.time('爬虫已完成！耗时：')
 let url = encodeURIComponent('https://trade.500.com/jczq/')
@@ -185,18 +186,29 @@ function buildExcel(topList, tableList,indnx){
     exportExcel()
   }
 }
-
+var fnArr, reso, reje
 function exportExcel(){
   // console.log(222)
   var result = xlsx.build(sheetArr); // 转成二进制
-  let targetPath = './秘籍汇总.xlsx'
+  let targetPath = `static/爬虫汇总.xlsx`
   // fs将文件写到内存
-  fs.writeFile(targetPath, result, 'binary',function(err) {
+  fs.writeFile(join(__dirname,targetPath), result, 'binary',function(err) {
     if (err) {
       console.log(err);
+      reje(22)
+    }else{
+      console.timeEnd('爬虫已完成！耗时：')
+      reso('爬虫完成，已生成文件！')
     }
-    console.timeEnd('爬虫已完成！耗时：')
+
   });
 }
-let fnArr = [pachong(),pachong1()]
+function run(){
+  return  new Promise((resolve, reject) => {
+    reso = resolve
+    reje = reject
+    fnArr = [pachong(),pachong1()]
+  })
+}
+module.exports = run
 
