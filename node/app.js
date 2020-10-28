@@ -3,7 +3,8 @@ var Koa = require('koa')
 	, json = require('koa-json') // 返回json格式的响应
 	, views = require('koa-views') // 模板渲染中间件
 	, onerror = require('koa-onerror') // 错误处理中间件
-	, join = require('path').join; // 文件路径拼接方法
+	, join = require('path').join // 文件路径拼接方法
+	, Swig = require('koa-swig'); // swig 模版引擎
 let app = new Koa()
 
 
@@ -26,7 +27,8 @@ app.use(logger());
 app.use(require('koa-static')(join(__dirname, 'static'))) // 静态文件中间件 接口中获取静态资源不需要带static
 
 app.use(views(join(__dirname, './views'), {
-	extension: 'ejs'
+	extension: 'swig'
+	// extension: 'ejs'
 	// map: {html: 'ejs' }
 }))
 
@@ -71,8 +73,8 @@ app.on('error', (err, ctx) => { // 服务报错的情况下
 	console.log(err)
 });
 
-module.exports = app // 这个有热更新
+// module.exports = app // 这个有热更新
 
-// app.listen(config.SERVER_PORT, '0.0.0.0' , () => { // 启动服务 监听端口
-// 	console.log(`启动服务，监听端口号为： ${config.SERVER_PORT}`)
-// });
+app.listen(config.SERVER_PORT, '0.0.0.0' , () => { // 启动服务 监听端口
+	console.log(`启动服务，监听端口号为： ${config.SERVER_PORT}`)
+});
