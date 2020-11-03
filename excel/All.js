@@ -78,10 +78,14 @@ async function pachong(){
           obj.startDX3 = $(table1).find('td').eq(2).text()
         }
         tableContent[index] = obj
+        console.log(`第1个已完成: ${tableContent.flat().length}, 目标：${arr.length - a}`)
         if(tableContent.flat().length == arr.length - a ){
           // console.log(999)
           resolve()
         }
+      }).catch((err) => {
+        console.log(`1报错了`)
+        a++
       })
     }
     })
@@ -112,7 +116,12 @@ async function pachong1(){
   arr = Array.from($('.bet-main>table.bet-tb tr'))
   let tableContent = []
   new Promise( resolve => {
+    let b = 0 // 为了匹配continue
     for(let [index,val] of arr.entries()){
+      if($(val).css('display') == 'none') {
+        ++b
+        continue
+      }
       let obj = {
         date: $(val).find('.td-no a').text(),
         name: $(val).find('.td-evt a').text(),
@@ -141,19 +150,25 @@ async function pachong1(){
           obj.startDX3 = $(table1).find('td').eq(2).text()
         }
         tableContent[index] = obj
-        if(tableContent.flat().length == arr.length){
+        console.log(`第2个已完成: ${tableContent.flat().length}, 目标：${arr.length - b}`)
+        if(tableContent.flat().length == arr.length - b){
           resolve()
         }
+      }).catch((err) => {
+        console.log(`2报错了`)
+        b++
       })
     }
   }).then(()=>{
     buildExcel(tableTop,tableContent,2)
+  }).catch((err) => {
+    console.log(err)
   })
 }
 
 // 写入到excel中
 function buildExcel(topList, tableList,indnx){
-  // console.log("111")
+  console.log("111")
   // 写入到表格里面
   const conf = {};
   conf.stylesXmlFile = "styles.xml"
@@ -181,9 +196,11 @@ function buildExcel(topList, tableList,indnx){
   let range2 = {s: {c: 16, r:0 }, e: {c:18, r:0}}
   let sheetOptions = {'!merges': [ range1, range2]}
   sheetArr.push({name: "秘籍"+indnx, data: dataSheet1,  options: sheetOptions})
-
+  console.log('sheetLength: '+sheetArr.length)
   if(sheetArr.length == fnArr.length){
     exportExcel()
+  }else if(sheetArr.length > fnArr.length){
+    reje(22)
   }
 }
 var fnArr, reso, reje
@@ -200,14 +217,16 @@ function exportExcel(){
       console.timeEnd('爬虫已完成！耗时：')
       reso('爬虫完成，已生成文件！')
     }
-
   });
 }
 function run(){
+  sheetArr =  []
   return  new Promise((resolve, reject) => {
     reso = resolve
     reje = reject
     fnArr = [pachong(),pachong1()]
+  }).catch((err) => {
+    console.log(err)
   })
 }
 module.exports = run
