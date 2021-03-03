@@ -28,7 +28,7 @@
     "koa2-session-redis": "0.0.2",
     "moment": "^2.24.0",
     "mysql": "^2.17.1",
-    "pug": "^2.0.3",
+    "pug": "^3.0.1",
     "unzip": "^0.1.11"
   },
   "devDependencies": {
